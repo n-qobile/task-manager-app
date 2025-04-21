@@ -89,12 +89,15 @@ const AddTask = ({ open, setOpen, task }) => {
   const URLS = task?.assets ? [...task.assets] : [];
 
   const handleOnSubmit = async (data) => {
+    console.log("Form submitted with data:", data);
+
     for (const file of assets) {
       setUploading(true);
       try {
         await uploadFile(file);
       } catch (error) {
         console.error("Error uploading file:", error.message);
+        toast.error("Failed to upload files. Please try again.");
         return;
       } finally {
         setUploading(false);
@@ -109,19 +112,27 @@ const AddTask = ({ open, setOpen, task }) => {
         stage,
         priority,
       };
-      console.log(data, newData);
+
+      console.log("Sending this data to backend (createTask):", newData);
+
       const res = task?._id
         ? await updateTask({ ...newData, _id: task._id }).unwrap()
         : await createTask(newData).unwrap();
 
-      toast.success(res.message);
+      console.log("Response from server:", res);
+
+      toast.success(res.message || "Task saved successfully!");
 
       setTimeout(() => {
         setOpen(false);
       }, 500);
     } catch (err) {
-      console.log(err);
-      toast.error(err?.data?.message || err.error);
+      console.error("Error while creating/updating task:", err);
+      toast.error(
+        err?.data?.message ||
+          err?.error ||
+          "An unexpected error occurred while saving the task!"
+      );
     }
   };
 
@@ -134,64 +145,64 @@ const AddTask = ({ open, setOpen, task }) => {
       <ModalWrapper open={open} setOpen={setOpen}>
         <form onSubmit={handleSubmit(handleOnSubmit)}>
           <Dialog.Title
-            as='h2'
-            className='text-base font-bold leading-6 text-gray-900 mb-4'
+            as="h2"
+            className="text-base font-bold leading-6 text-gray-900 mb-4"
           >
             {task ? "UPDATE TASK" : "ADD TASK"}
           </Dialog.Title>
 
-          <div className='mt-2 flex flex-col gap-6'>
+          <div className="mt-2 flex flex-col gap-6">
             <Textbox
-              placeholder='Task title'
-              type='text'
-              name='title'
-              label='Task Title'
-              className='w-full rounded'
+              placeholder="Task title"
+              type="text"
+              name="title"
+              label="Task Title"
+              className="w-full rounded"
               register={register("title", {
                 required: "Title is required!",
               })}
               error={errors.title ? errors.title.message : ""}
             />
             <UserList setTeam={setTeam} team={team} />
-            <div className='flex gap-4'>
+            <div className="flex gap-4">
               <SelectList
-                label='Task Stage'
+                label="Task Stage"
                 lists={LISTS}
                 selected={stage}
                 setSelected={setStage}
               />
               <SelectList
-                label='Priority Level'
+                label="Priority Level"
                 lists={PRIORIRY}
                 selected={priority}
                 setSelected={setPriority}
               />
             </div>
-            <div className='flex gap-4'>
-              <div className='w-full'>
+            <div className="flex gap-4">
+              <div className="w-full">
                 <Textbox
-                  placeholder='Date'
-                  type='date'
-                  name='date'
-                  label='Task Date'
-                  className='w-full rounded'
+                  placeholder="Date"
+                  type="date"
+                  name="date"
+                  label="Task Date"
+                  className="w-full rounded"
                   register={register("date", {
                     required: "Date is required!",
                   })}
                   error={errors.date ? errors.date.message : ""}
                 />
               </div>
-              <div className='w-full flex items-center justify-center mt-4'>
+              <div className="w-full flex items-center justify-center mt-4">
                 <label
-                  className='flex items-center gap-1 text-base text-ascent-2 hover:text-ascent-1 cursor-pointer my-4'
-                  htmlFor='imgUpload'
+                  className="flex items-center gap-1 text-base text-ascent-2 hover:text-ascent-1 cursor-pointer my-4"
+                  htmlFor="imgUpload"
                 >
                   <input
-                    type='file'
-                    className='hidden'
-                    id='imgUpload'
+                    type="file"
+                    className="hidden"
+                    id="imgUpload"
                     onChange={(e) => handleSelect(e)}
-                    accept='.jpg, .png, .jpeg'
+                    accept=".jpg, .png, .jpeg"
                     multiple={true}
                   />
                   <BiImages />
@@ -200,53 +211,53 @@ const AddTask = ({ open, setOpen, task }) => {
               </div>
             </div>
 
-            <div className='w-full'>
+            <div className="w-full">
               <p>Task Description</p>
               <textarea
-                name='description'
+                name="description"
                 {...register("description")}
-                className='w-full bg-transparent px-3 py-1.5 2xl:py-3 border border-gray-300
+                className="w-full bg-transparent px-3 py-1.5 2xl:py-3 border border-gray-300
             dark:border-gray-600 placeholder-gray-300 dark:placeholder-gray-700
             text-gray-900 dark:text-white outline-none text-base focus:ring-2
-            ring-blue-300'
+            ring-blue-300"
               ></textarea>
             </div>
 
-            <div className='w-full'>
+            <div className="w-full">
               <p>
                 Add Links{" "}
-                <span className='text- text-gray-600'>
+                <span className="text- text-gray-600">
                   seperated by comma (,)
                 </span>
               </p>
               <textarea
-                name='links'
+                name="links"
                 {...register("links")}
-                className='w-full bg-transparent px-3 py-1.5 2xl:py-3 border border-gray-300
+                className="w-full bg-transparent px-3 py-1.5 2xl:py-3 border border-gray-300
             dark:border-gray-600 placeholder-gray-300 dark:placeholder-gray-700
             text-gray-900 dark:text-white outline-none text-base focus:ring-2
-            ring-blue-300'
+            ring-blue-300"
               ></textarea>
             </div>
           </div>
 
           {isLoading || isUpdating || uploading ? (
-            <div className='py-4'>
+            <div className="py-4">
               <Loading />
             </div>
           ) : (
-            <div className='bg-gray-50 mt-6 mb-4 sm:flex sm:flex-row-reverse gap-4'>
+            <div className="bg-gray-50 mt-6 mb-4 sm:flex sm:flex-row-reverse gap-4">
               <Button
-                label='Submit'
-                type='submit'
-                className='bg-blue-600 px-8 text-sm font-semibold text-white hover:bg-blue-700  sm:w-auto'
+                label="Submit"
+                type="submit"
+                className="bg-blue-600 px-8 text-sm font-semibold text-white hover:bg-blue-700  sm:w-auto"
               />
 
               <Button
-                type='button'
-                className='bg-white px-5 text-sm font-semibold text-gray-900 sm:w-auto'
+                type="button"
+                className="bg-white px-5 text-sm font-semibold text-gray-900 sm:w-auto"
                 onClick={() => setOpen(false)}
-                label='Cancel'
+                label="Cancel"
               />
             </div>
           )}

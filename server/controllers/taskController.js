@@ -80,7 +80,7 @@ const duplicateTask = asyncHandler(async (req, res) => {
 
     //alert users of the task
     let text = "New task has been assigned to you";
-    if (team.team?.length > 1) {
+    if (task.team?.length > 1) {
       text = text + ` and ${task.team?.length - 1} others.`;
     }
 
@@ -127,36 +127,32 @@ const duplicateTask = asyncHandler(async (req, res) => {
     return res.status(500).json({ status: false, message: error.message });
   }
 });
-
 const updateTask = asyncHandler(async (req, res) => {
-  const { id } = req.params;
-  const { title, date, team, stage, priority, assets, links, description } =
-    req.body;
-
   try {
+    const { id } = req.params;
+    const { title, description, priority, stage, team, assets, links } =
+      req.body;
+
     const task = await Task.findById(id);
-
-    let newLinks = [];
-
-    if (links) {
-      newLinks = links.split(",");
+    if (!task) {
+      return res.status(404).json({ status: false, message: "Task not found" });
     }
 
-    task.title = title;
-    task.date = date;
-    task.priority = priority.toLowerCase();
-    task.assets = assets;
-    task.stage = stage.toLowerCase();
-    task.team = team;
-    task.links = newLinks;
-    task.description = description;
+    task.title = title || task.title;
+    task.description = description || task.description;
+    task.priority = priority || task.priority;
+    task.stage = stage || task.stage;
+    task.team = team || task.team;
+    task.assets = assets || task.assets;
+    task.links = links || task.links;
 
     await task.save();
 
     res
       .status(200)
-      .json({ status: true, message: "Task duplicated successfully." });
+      .json({ status: true, message: "Task updated successfully", task });
   } catch (error) {
+    console.log(error);
     return res.status(400).json({ status: false, message: error.message });
   }
 });

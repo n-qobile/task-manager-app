@@ -3,30 +3,34 @@ import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
 
 const protectRoute = asyncHandler(async (req, res, next) => {
-  let token = req.cookies.token;
+  let token;
 
-  if (token) {
-    try {
-      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+  if (req.cookies.token) {
+    token = req.cookies.token;
+  } else if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    token = req.headers.authorization.split(" ")[1];
+  }
 
-      const resp = await User.findById(decodedToken.userId).select(
-        "isAdmin email"
-      );
+  if (!token) {
+    return res
+      .status(401)
+      .json({ status: false, message: "Not authorized. Try login again." });
+  }
 
-      req.user = {
-        email: resp.email,
-        isAdmin: resp.isAdmin,
-        userId: decodedToken.userId,
-      };
+  try {
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
 
-      next();
-    } catch (error) {
-      console.error(error);
-      return res
-        .status(401)
-        .json({ status: false, message: "Not authorized. Try login again." });
-    }
-  } else {
+    req.user = {
+      userId: decodedToken.userId,
+      isAdmin: decodedToken.isAdmin,
+    };
+
+    next();
+  } catch (error) {
+    console.error(error);
     return res
       .status(401)
       .json({ status: false, message: "Not authorized. Try login again." });

@@ -2,11 +2,11 @@ import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_APP_FIREBASE_API_KEY,
-  authDomain: "taskmanager-557d7.firebaseapp.com",
-  projectId: "taskmanager-557d7",
-  storageBucket: "taskmanager-557d7.appspot.com",
-  messagingSenderId: "824261215224",
-  appId: "1:824261215224:web:ba24631a12b4bf9d5e8c0d",
+  authDomain: "task-manager-2f095.firebaseapp.com",
+  projectId: "task-manager-2f095",
+  storageBucket: "task-manager-2f095.firebasestorage.app",
+  messagingSenderId: "281281753972",
+  appId: "1:281281753972:web:e2b7a36ed849a1c983b221",
 };
 
 export const app = initializeApp(firebaseConfig);
