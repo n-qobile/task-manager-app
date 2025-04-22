@@ -1,21 +1,25 @@
 Building a Fullstack Task Manager App (TaskMe)
 
 Highlights:
+
 Admin Features
+
 1. User Management: Create and manage admin accounts, add and manage team members.
 2. Task Assignment: Assign tasks to individuals or groups, update task details and statuses.
-3, Task Properties:
-- Label tasks as Todo, In Progress, or Completed.
-- Set priority levels (High, Medium, Normal, Low).
-- Add and manage sub-tasks.
-- Asset Management: Upload and manage task assets (e.g., images).
+3. Task Properties:
+   - Label tasks as Todo, In Progress, or Completed.
+   - Set priority levels (High, Medium, Normal, Low).
+   -  Add and manage sub-tasks.
+   -  Asset Management: Upload and manage task assets (e.g., images).
 4. Account Control: Disable or activate user accounts, permanently delete or trash tasks.
 
 User Features
+
 1. Task Interaction: Change task statuses and view detailed information.
 2. Communication: Add comments/chat within tasks for better collaboration.
 
 General Features
+
 1. Authentication & Authorization: Secure login, role-based access.
 2. Profile Management: Update profiles, change passwords securely.
 3. Dashboard: Visual overview of task statuses (Todo, In Progress, Completed).
