@@ -19,7 +19,7 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "https://mern-task-manager-app.netlify.app",
+      "https://task-me-mern.netlify.app/",
       "http://localhost:3000",
       "http://localhost:3001",
     ],
