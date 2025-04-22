@@ -8,6 +8,8 @@ import routes from "./routes/index.js";
 import dbConnection from "./utils/connectDB.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import path from "path";
+
 dotenv.config();
 
 dbConnection();
@@ -18,24 +20,18 @@ const app = express();
 
 app.use(
   cors({
-    origin: [
-      "https://task-me-mern.netlify.app/",
-      "http://localhost:3000",
-      "http://localhost:3001",
-    ],
-    methods: ["GET", "POST", "DELETE", "PUT"],
+    origin: true, // <- allow dynamic origin
     credentials: true,
   })
 );
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use(cookieParser());
-
-//app.use(morgan("dev"));
+// app.use(morgan("dev"));
 app.use("/api", routes);
 
+// === Static Files for Production ===
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
