@@ -26,7 +26,7 @@ General Features
 2. Profile Management: Update profiles, change passwords securely.
 3. Dashboard: Visual overview of task statuses (Todo, In Progress, Completed).
 
-Live Demo: https://task-me-mern.netlify.app/
+Live demo: https://task-me-mern.netlify.app/
 
 Homepage- Login/Sign up.
 ![2025-04-21 (4)](https://github.com/user-attachments/assets/ecd1eb8d-8a65-4c71-9ea6-19c4622510e2)
