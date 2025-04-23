@@ -63,10 +63,10 @@ Team (only on admin dashboard)- shows members of the team. Admin can add users a
 
 ![2025-04-21 (17)](https://github.com/user-attachments/assets/e2bd223f-6e30-4b2a-8f9a-029107432aae)
 
-Status- shows user's "status" of tasks and their title.
+Status (only on admin dashboard)- shows user's "status" of tasks and their title.
 
 ![2025-04-21 (7)](https://github.com/user-attachments/assets/b7a6598c-c35a-419e-ae7a-bb34c40bd311)
 
-Trash- deleted tasks. Can be restored or deleted.
+Trash (only on admin dashboard)- deleted tasks. Can be restored or deleted.
 
 ![2025-04-21 (8)](https://github.com/user-attachments/assets/6692b3ac-0ff3-46da-adb9-9abd800b2610)
